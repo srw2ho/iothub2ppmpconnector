@@ -1,0 +1,15 @@
+.history/*
+.env
+test/iothub2ppmpconnector/__pycache__/*
+.pytest_cache/*
+test/iothub2ppmpconnector/debug.txt
+iothub2ppmpconnector/__pycache__/*
+.vscode/*
+
+dist/**
+build/**
+iothub2ppmpconnector.egg-info/**
+.eggs/**
+__pycache__/**
+iothub2ppmpconnector-env/**
+logs/**
