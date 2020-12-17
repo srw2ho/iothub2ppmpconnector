@@ -210,7 +210,7 @@ def start_azureiothub():
    
 
 
-def restart_opcua():
+def restart():
     os.execl(sys.executable, os.path.abspath(__file__), *sys.argv)
     sys.exit(0) 
 
