@@ -39,9 +39,9 @@ EVENTHUB_COMPATIBLE_PATH = toml.get("iothub.EVENTHUB_COMPATIBLE_PATH","")
 IOTHUB_SAS_KEY = toml.get("iothub.IOTHUB_SAS_KEY","")
 
 
-# EVENTHUB_COMPATIBLE_ENDPOINT = "sb://ihsuprodamres068dednamespace.servicebus.windows.net/"
-# EVENTHUB_COMPATIBLE_PATH = "iothub-ehub-srw2ho-iot-5365396-53338a5198"
-# IOTHUB_SAS_KEY = "n0cZaxLPmutlFt3wrzfvV3htQAfiqxr5pBienbTlxW0="
+# EVENTHUB_COMPATIBLE_ENDPOINT = ""
+# EVENTHUB_COMPATIBLE_PATH = ""
+# IOTHUB_SAS_KEY = ""
 # If you have access to the Event Hub-compatible connection string from the Azure portal, then
 # you can skip the Azure CLI commands above, and assign the connection string directly here.
 CONNECTION_STR = f'Endpoint={EVENTHUB_COMPATIBLE_ENDPOINT}/;SharedAccessKeyName=service;SharedAccessKey={IOTHUB_SAS_KEY};EntityPath={EVENTHUB_COMPATIBLE_PATH}'
