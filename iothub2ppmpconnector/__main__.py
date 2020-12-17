@@ -29,14 +29,14 @@ toml = TomlParser(f'{PROJECT_NAME}.toml')
 # Event Hub-compatible endpoint
 # az iot hub show --query properties.eventHubEndpoints.events.endpoint --name {your IoT Hub name}
 # EVENTHUB_COMPATIBLE_ENDPOINT = "{your Event Hubs compatible endpoint}"
-EVENTHUB_COMPATIBLE_ENDPOINT =  toml.get("iothub.EVENTHUB_COMPATIBLE_ENDPOINT", "sb://ihsuprodamres068dednamespace.servicebus.windows.net/")
+EVENTHUB_COMPATIBLE_ENDPOINT =  toml.get("iothub.EVENTHUB_COMPATIBLE_ENDPOINT", "")
 # Event Hub-compatible name
 # az iot hub show --query properties.eventHubEndpoints.events.path --name {your IoT Hub name}
 # EVENTHUB_COMPATIBLE_PATH = "{your Event Hubs compatible name}"
-EVENTHUB_COMPATIBLE_PATH = toml.get("iothub.EVENTHUB_COMPATIBLE_PATH","iothub-ehub-srw2ho-iot-5365396-53338a5198")
+EVENTHUB_COMPATIBLE_PATH = toml.get("iothub.EVENTHUB_COMPATIBLE_PATH","")
 # Primary key for the "service" policy to read messages
 # az iot hub policy show --name service --query primaryKey --hub-name {your IoT Hub name}
-IOTHUB_SAS_KEY = toml.get("iothub.IOTHUB_SAS_KEY","n0cZaxLPmutlFt3wrzfvV3htQAfiqxr5pBienbTlxW0=")
+IOTHUB_SAS_KEY = toml.get("iothub.IOTHUB_SAS_KEY","")
 
 
 # EVENTHUB_COMPATIBLE_ENDPOINT = "sb://ihsuprodamres068dednamespace.servicebus.windows.net/"
