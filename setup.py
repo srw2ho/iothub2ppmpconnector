@@ -3,7 +3,7 @@ import setuptools
 NAME = "iothub2ppmpconnector"
 
 DEPENDENCIES_ARTIFACTORY = [
-    'azure_storage',
+    # 'azure_storage',
     'azure-eventhub',
 ]
 
@@ -39,7 +39,8 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name=NAME,
-    version_format='{tag}.dev{commitcount}+{gitsha}',
+    # version_format='{tag}.dev{commitcount}+{gitsha}',
+    version_config=True,
     author="srw2ho",
     author_email="",
     description="",
@@ -50,6 +51,7 @@ setuptools.setup(
     package_data={},
     setup_requires=[
         'Cython',
+        'setuptools-git-version',
     ],
     install_requires=DEPENDENCIES,
     classifiers=[
