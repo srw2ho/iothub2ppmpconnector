@@ -1,7 +1,7 @@
 @echo on
 
 @rem set dockerimage and Build
-@set dockerimage=azureiothub2influx
+@set dockerimage=iothub2ppmpconnector
 @set Build=""
 
 
