@@ -37,7 +37,8 @@ EVENTHUB_COMPATIBLE_PATH = toml.get("iothub.EVENTHUB_COMPATIBLE_PATH","")
 # Primary key for the "service" policy to read messages
 # az iot hub policy show --name service --query primaryKey --hub-name {your IoT Hub name}
 IOTHUB_SAS_KEY = toml.get("iothub.IOTHUB_SAS_KEY","")
-
+iothubaliasdevices = toml.get("iothub.aliasdevices",[])
+IOTHUB_ALIAS_DEVICES = { value.split(".")[0]:value.split(".")[1] for value in iothubaliasdevices if len (value.split(".")) > 1 }
 
 # EVENTHUB_COMPATIBLE_ENDPOINT = ""
 # EVENTHUB_COMPATIBLE_PATH = ""
@@ -56,17 +57,6 @@ MQTT_PASSWORD = toml.get('mqtt.password', '')
 MQTT_TLS_CERT = toml.get('mqtt.tls_cert', '')
 
 LOGFOLDER = "./logs/"
-
-# DEVICE_GATEWAY = Device(
-#     additionalData={
-#         'type': 'OPC_UA_GATEWAY',
-#     },
-# )
-# DEVICE_PLC = Device(
-#     additionalData={
-#         'type': 'iotHub',
-#     },
-# )
 
 
 # configure logging
@@ -94,10 +84,6 @@ fl.setFormatter(formatter)
 logger.addHandler(fl)
 
 
-# # list of all OPC-UA client processes
-# threads = []
-# processes = []
-
 globMQTTClient = None
 iothubdevices = dict()
 
@@ -109,7 +95,12 @@ def sendMQTTPayload(event):
     jsonpayload = event.body_as_json(encoding='UTF-8')
     acttime = local_now()
     # if event.system_properties[b'x-opt-enqueued-time']: acttime = event.system_properties[b'x-opt-enqueued-time']
-    if event.system_properties[b'iothub-connection-device-id']: deviceId = event.system_properties[b'iothub-connection-device-id']
+    if event.system_properties[b'iothub-connection-device-id']: 
+        deviceIdinb = event.system_properties[b'iothub-connection-device-id']
+        deviceId = deviceIdinb
+        deviceIddecoded = deviceIdinb.decode('utf-8')
+        if deviceIddecoded in IOTHUB_ALIAS_DEVICES:
+            deviceId = IOTHUB_ALIAS_DEVICES[deviceIddecoded]
     
     if globMQTTClient!=None:  
         iotDevice = iothubdevices.get(deviceId)
@@ -166,23 +157,11 @@ def start_azureiothub():
     # send complete config list for all devices (as gateway, not only single PLC device)
     globMQTTClient = MQTTClient(host=MQTT_HOST, port=MQTT_PORT, user=MQTT_USERNAME, password=MQTT_PASSWORD, tls_cert=MQTT_TLS_CERT)
 
-    # create machine message with state ERROR (LWT) (do this before(!) connect)
-    # globMQTTClient.last_will(
-    #     DEVICE_PLC.info_topic(),
-    #     machine_message_generator(DEVICE_PLC, state=DeviceState.ERROR, code="offline"),
-    #     retain=True
-    # )
+
 
     # connect to MQTT
     globMQTTClient.connect()
 
-    # register via PPMP as "Gateway device"
-    # create machine message with state=ON and code=online (retain)
-    # globMQTTClient.publish(
-    #     DEVICE_PLC.info_topic(),
-    #     machine_message_generator(DEVICE_PLC),
-    #     retain=True
-    # )
 
     loop = asyncio.get_event_loop()
     client = EventHubConsumerClient.from_connection_string(
